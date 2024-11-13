@@ -71,11 +71,10 @@ public class Village {
 	 * @param vendeur   : un gaulois habitant le village
 	 * @param produit   : nom du produit à vendre
 	 * @param nbProduit : nombre de produit à vendre
-	 * @return le numéro de l'étal où c'est installé le vendeur ou -1 s'il n'en
-	 *         a pas trouvé
+	 * @return le numéro de l'étal où c'est installé le vendeur ou -1 s'il n'en a
+	 *         pas trouvé
 	 */
-	public int installerVendeur(Gaulois vendeur, String produit,
-			int nbProduit) {
+	public int installerVendeur(Gaulois vendeur, String produit, int nbProduit) {
 		int indiceEtal = marche.trouverEtalLibre();
 		if (indiceEtal >= 0) {
 			marche.utiliserEtal(indiceEtal, vendeur, produit, nbProduit);
@@ -84,7 +83,7 @@ public class Village {
 	}
 
 	public void partirVendeur(Gaulois vendeur) {
-		Etal etal = marche.trouverVendeur(vendeur);
+		IEtal etal = marche.trouverVendeur(vendeur);
 		if (etal != null) {
 			etal.libererEtal();
 		}
@@ -96,7 +95,7 @@ public class Village {
 
 	public Gaulois[] rechercherVendeursProduit(String produit) {
 		Gaulois[] vendeurs = null;
-		Etal[] etalsProduit = marche.trouverEtals(produit);
+		IEtal[] etalsProduit = marche.trouverEtals(produit);
 		if (etalsProduit != null) {
 			vendeurs = new Gaulois[etalsProduit.length];
 			for (int i = 0; i < etalsProduit.length; i++) {
@@ -106,7 +105,7 @@ public class Village {
 		return vendeurs;
 	}
 
-	public Etal rechercherEtal(Gaulois vendeur) {
+	public IEtal rechercherEtal(Gaulois vendeur) {
 		return marche.trouverVendeur(vendeur);
 	}
 
@@ -116,17 +115,16 @@ public class Village {
 
 	////////////////////// Classe Interne ///////////////////////
 	private static class Marche {
-		private Etal[] etals;
+		private IEtal[] etals;
 
 		private Marche(int nbEtals) {
-			etals = new Etal[nbEtals];
+			etals = new IEtal[nbEtals];
 			for (int i = 0; i < nbEtals; i++) {
 				etals[i] = new Etal();
 			}
 		}
 
-		private void utiliserEtal(int indiceEtal, Gaulois vendeur,
-				String produit, int nbProduit) {
+		private void utiliserEtal(int indiceEtal, Gaulois vendeur, String produit, int nbProduit) {
 			if (indiceEtal >= 0 && indiceEtal < etals.length) {
 				etals[indiceEtal].occuperEtal(vendeur, produit, nbProduit);
 			}
@@ -134,8 +132,8 @@ public class Village {
 
 		/**
 		 * 
-		 * @return le numéro de l'étal où c'est installé le vendeur ou -1 s'il
-		 *         n'en a pas trouvé
+		 * @return le numéro de l'étal où c'est installé le vendeur ou -1 s'il n'en a
+		 *         pas trouvé
 		 */
 		private int trouverEtalLibre() {
 			int indiceEtalLibre = -1;
@@ -147,21 +145,19 @@ public class Village {
 			return indiceEtalLibre;
 		}
 
-		private Etal[] trouverEtals(String produit) {
+		private IEtal[] trouverEtals(String produit) {
 			int nbEtal = 0;
-			for (Etal etal : etals) {
+			for (IEtal etal : etals) {
 				if (etal.isEtalOccupe() && etal.contientProduit(produit)) {
 					nbEtal++;
 				}
 			}
-			Etal[] etalsProduitsRecherche = null;
+			IEtal[] etalsProduitsRecherche = null;
 			if (nbEtal > 0) {
-				etalsProduitsRecherche = new Etal[nbEtal];
+				etalsProduitsRecherche = new IEtal[nbEtal];
 				int nbEtalTrouve = 0;
-				for (int i = 0; i < etals.length
-						&& nbEtalTrouve < nbEtal; i++) {
-					if (etals[i].isEtalOccupe()
-							&& etals[i].contientProduit(produit)) {
+				for (int i = 0; i < etals.length && nbEtalTrouve < nbEtal; i++) {
+					if (etals[i].isEtalOccupe() && etals[i].contientProduit(produit)) {
 						etalsProduitsRecherche[nbEtalTrouve] = etals[i];
 						nbEtalTrouve++;
 					}
@@ -170,9 +166,9 @@ public class Village {
 			return etalsProduitsRecherche;
 		}
 
-		private Etal trouverVendeur(Gaulois gaulois) {
+		private IEtal trouverVendeur(Gaulois gaulois) {
 			boolean vendeurTrouve = false;
-			Etal etalVendeur = null;
+			IEtal etalVendeur = null;
 			for (int i = 0; i < etals.length && !vendeurTrouve; i++) {
 				Gaulois vendeur = etals[i].getVendeur();
 				if (vendeur != null) {
@@ -191,7 +187,7 @@ public class Village {
 
 		private int getNbEtalsOccupe() {
 			int nbEtal = 0;
-			for (Etal etal : etals) {
+			for (IEtal etal : etals) {
 				if (etal.isEtalOccupe()) {
 					nbEtal++;
 				}
@@ -201,16 +197,16 @@ public class Village {
 
 		/**
 		 * 
-		 * @return renvoie un tableau contenant les informations de tous les
-		 *         étals du marché. Chaque étal est décrit sur 3 cases du
-		 *         tableau successives : le nom du vendeur, le nombre de produit
-		 *         qu'il lui reste à vendre, le type de produit à vendre
+		 * @return renvoie un tableau contenant les informations de tous les étals du
+		 *         marché. Chaque étal est décrit sur 3 cases du tableau successives :
+		 *         le nom du vendeur, le nombre de produit qu'il lui reste à vendre, le
+		 *         type de produit à vendre
 		 */
 		private String[] donnerEtat() {
 			int tailleTableau = getNbEtalsOccupe() * 3;
 			String[] donnees = new String[tailleTableau];
 			for (int i = 0, j = 0; i < etals.length; i++) {
-				Etal etal = etals[i];
+				IEtal etal = etals[i];
 				if (etal.isEtalOccupe()) {
 					Gaulois vendeur = etal.getVendeur();
 					int nbProduit = etal.getQuantite();
