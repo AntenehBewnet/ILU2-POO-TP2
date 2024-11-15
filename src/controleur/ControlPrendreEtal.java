@@ -19,7 +19,7 @@ public class ControlPrendreEtal {
 		return village.rechercherEtalVide();
 	}
 
-	public int prendreEtal(String nomVendeur, String produit, int nbProduit) {
+	public int prendreEtalNew(String nomVendeur, String produit, int nbProduit) {
 		village.trouverHabitant(nomVendeur);
 		int numeroEtal = -1;
 		Gaulois gaulois = village.trouverHabitant(nomVendeur);
@@ -31,6 +31,14 @@ public class ControlPrendreEtal {
 			p = new Poisson("hier");
 
 		numeroEtal = village.installerVendeur(gaulois, p, nbProduit);
+		return numeroEtal;
+	}
+
+	public int prendreEtal(String nomVendeur, String produit, int nbProduit) {
+		village.trouverHabitant(nomVendeur);
+		int numeroEtal = -1;
+		Gaulois gaulois = village.trouverHabitant(nomVendeur);
+		numeroEtal = village.installerVendeur(gaulois, produit, nbProduit);
 		return numeroEtal;
 	}
 

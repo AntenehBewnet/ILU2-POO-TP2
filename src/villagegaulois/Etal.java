@@ -6,6 +6,7 @@ import produit.Produit;
 public class Etal implements IEtal {
 	private Gaulois vendeur;
 	private Produit produit;
+	private String nomProduit;
 
 	private int quantiteDebutMarche;
 	private int quantite;
@@ -35,6 +36,16 @@ public class Etal implements IEtal {
 	public void occuperEtal(Gaulois vendeur, Produit produit, int quantite) {
 		this.vendeur = vendeur;
 		this.produit = produit;
+		// this.nomProduit = produit.getNom();
+		this.quantite = quantite;
+		quantiteDebutMarche = quantite;
+		etalOccupe = true;
+	}
+
+	@Override
+	public void occuperEtal(Gaulois vendeur, String produit, int quantite) {
+		this.vendeur = vendeur;
+		this.nomProduit = produit;
 		this.quantite = quantite;
 		quantiteDebutMarche = quantite;
 		etalOccupe = true;
@@ -42,7 +53,7 @@ public class Etal implements IEtal {
 
 	@Override
 	public boolean contientProduit(String produit) {
-		return this.produit.equals(produit);
+		return this.produit.equals(produit) || this.nomProduit.equals(produit);
 	}
 
 	@Override
