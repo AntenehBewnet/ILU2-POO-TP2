@@ -4,6 +4,7 @@ package villagegaulois;
 import personnages.Chef;
 import personnages.Druide;
 import personnages.Gaulois;
+import produit.Produit;
 
 public class Village {
 	private String nom;
@@ -74,7 +75,7 @@ public class Village {
 	 * @return le numéro de l'étal où c'est installé le vendeur ou -1 s'il n'en a
 	 *         pas trouvé
 	 */
-	public int installerVendeur(Gaulois vendeur, String produit, int nbProduit) {
+	public int installerVendeur(Gaulois vendeur, Produit produit, int nbProduit) {
 		int indiceEtal = marche.trouverEtalLibre();
 		if (indiceEtal >= 0) {
 			marche.utiliserEtal(indiceEtal, vendeur, produit, nbProduit);
@@ -124,7 +125,7 @@ public class Village {
 			}
 		}
 
-		private void utiliserEtal(int indiceEtal, Gaulois vendeur, String produit, int nbProduit) {
+		private void utiliserEtal(int indiceEtal, Gaulois vendeur, Produit produit, int nbProduit) {
 			if (indiceEtal >= 0 && indiceEtal < etals.length) {
 				etals[indiceEtal].occuperEtal(vendeur, produit, nbProduit);
 			}
@@ -214,7 +215,7 @@ public class Village {
 					j++;
 					donnees[j] = String.valueOf(nbProduit);
 					j++;
-					donnees[j] = etal.getProduit();
+					donnees[j] = etal.getProduit().getNom();
 					j++;
 				}
 			}

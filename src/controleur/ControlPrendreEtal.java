@@ -1,6 +1,9 @@
 package controleur;
 
 import personnages.Gaulois;
+import produit.Poisson;
+import produit.Produit;
+import produit.Sanglier;
 import villagegaulois.Village;
 
 public class ControlPrendreEtal {
@@ -20,7 +23,14 @@ public class ControlPrendreEtal {
 		village.trouverHabitant(nomVendeur);
 		int numeroEtal = -1;
 		Gaulois gaulois = village.trouverHabitant(nomVendeur);
-		numeroEtal = village.installerVendeur(gaulois, produit, nbProduit);
+
+		Produit p;
+		if (produit.equals("sanglier"))
+			p = new Sanglier(10, gaulois);
+		else
+			p = new Poisson("hier");
+
+		numeroEtal = village.installerVendeur(gaulois, p, nbProduit);
 		return numeroEtal;
 	}
 

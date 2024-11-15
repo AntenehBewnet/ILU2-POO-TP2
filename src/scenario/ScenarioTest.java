@@ -1,6 +1,6 @@
 package scenario;
 
-import produit.Sanglier;
+/*import produit.Sanglier;
 import villagegaulois.Etal;
 import villagegaulois.IEtal;
 
@@ -16,3 +16,4 @@ public class ScenarioTest {
 	}
 
 }
+*/
